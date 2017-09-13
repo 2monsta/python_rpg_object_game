@@ -4,7 +4,7 @@
 # 1) fight the goblin
 # 2) do nothing( the goblin will still attack the hero)
 # 3) run away
-import sys
+import os
 
 hero_health = 10;
 hero_power = 10;
@@ -14,6 +14,7 @@ goblin_power = 2;
 # run the game as long as both characters have health
 while(goblin_health > 0 and hero_health > 0):
 	# game is on
+	os.system("clear");
 	print "You have %d health and %d power." % (hero_health, hero_power)
 	print "The goblin has %d health and %d power." % (goblin_health, goblin_power)
 	print "What do you want to do?"
@@ -40,6 +41,6 @@ while(goblin_health > 0 and hero_health > 0):
 	if(goblin_health > 0):
 		hero_health -= goblin_power;
 		print("the goblin hits you for %d damage" % goblin_power);
-		goblin has attacked, now check to see if hero is still alive
+		# goblin has attacked, now check to see if hero is still alive
 		if(hero_health < 0):
 			print("you haave been killed by the weak goblin, shame on you");
