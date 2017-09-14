@@ -1,13 +1,6 @@
-class Goblin(object):
+#get the super (parent) class
+from Character import Character
+#make goblin a subclass of Character
+class Goblin(Character):
 	def __init__(self):
-		self.name = "Goblin"
-		self.health = 6;
-		self.power = 2;
-	def take_damage(self, damage):
-		self.health -= damage;
-	def is_alive(self):
-		return self.health > 0;
-	def get_health(self):
-		return self.health;
-	def take_spell_damage(self, damage):
-		self.health -= damage * 2;
+		super(Goblin, self).__init__("Goblin", 6, 2)
