@@ -9,3 +9,5 @@ class Goblin(object):
 		return self.health > 0;
 	def get_health(self):
 		return self.health;
+	def take_spell_damage(self, damage):
+		self.health -= damage * 2;

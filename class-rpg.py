@@ -8,7 +8,7 @@ from Goblin import Goblin
 from Vampire import Vampire
 # instantiate a hero object from the Hero Class
 hero = Hero();
-gamestore = Store();
+store = Store();
 # pygame.init();
 # screenX = 1080;
 # screenY = 920;
@@ -33,7 +33,7 @@ hero_name = raw_input("> ");
 hero.name = hero_name;
 hero.cheer_for_hero();
 
-
+#generate number of monster to put in the list of monsters
 print("how many monster are you willing to fight, brave %s" %hero.name);
 number_of_enemies = int(raw_input("> "));
 for i in range(0, number_of_enemies):
@@ -44,7 +44,7 @@ for i in range(0, number_of_enemies):
 		monsters.append(Vampire());
 
 
-
+#a chance to stop before entering battle
 print("Do you want to shop before going into battle? (Y or N) ");
 is_battle = raw_input("> ");
 if(is_battle == "Y"):
@@ -61,10 +61,10 @@ if(is_battle == "Y"):
 		print("4. Add Armor")
 		print("> ");
 		us_input = raw_input();
-		if(us_input == "1"):
-			hero.heal();
+		if(us_input == "1"):	
+			store.heal(hero.health);
 		elif(us_input == "2"):
-			hero.mega_heal();
+			store.mega_heal(heao.health);
 		elif(us_input == "3"):
 			hero.weapon();
 		elif(us_input == "4"):
@@ -75,12 +75,13 @@ if(is_battle == "Y"):
 		pass;
 	else:
 		print("invaild input %s") % user_inp
+
 # we need to loop through all the monsters 
 for monster in monsters:
 	while(monster.is_alive() and hero.is_alive()):
 		# game is on
 		os.system("clear");
-		print "You have %d health and %d power and  %d defense." % (hero.health, hero.power, hero.defense);
+		print "You have %d health and %d power and  %d defense %d mana." % (hero.health, hero.power, hero.defense, hero.mana);
 		print "You have %d gold" %hero.gold;
 		print "The %s has %d health and %d power." % (monster.name, monster.health, monster.power)
 		print "What do you want to do?"
@@ -95,7 +96,23 @@ for monster in monsters:
 		# 	take away health from the goblin base on hero power
 		# the goblin class should be managing the goblin's health
 		# the hero is giong to do hero.power damage to the goblin
-			monster.take_damage(hero.power);
+			if(hero.mana > 0):
+				print("Choose an option")
+				print("1. Regular Attack")
+				print("2. Spell Attack")
+				user_input = raw_input("> ")
+				if(user_input == "1"):
+					monster.take_damage(hero.power);
+				if(user_input == "2"):
+					monster.take_spell_damage(hero.spell_power);
+					hero.spell_power_cost();
+			elif(hero.mana<0):
+				print("Choose an option")
+				print("1. Regular Attack")
+				user_input = raw_input("> ")
+				if(user_input == "1"):
+					monster.take_damage(hero.power);
+
 		elif(user_input == "2"):
 			# hero is going to stand there like an idoit
 			pass
@@ -111,26 +128,35 @@ for monster in monsters:
 			print("> ");
 			u_input = raw_input();
 			if(u_input == "1"):
-				hero.heal();
+				store.heal(hero.health);
 			elif(u_input == "2"):
-				hero.mega_heal();
+				store.mega_heal(hero.health);
 			elif(u_input == "3"):
-				hero.weapon();
+				store.weapon(hero.power);
 			elif(u_input == "4"):
-				hero.armor();
+				store.armor(hero.defense);
 		else:
 			print("invaild input %s") % user_input
 
 		# goblins turn to attack !! only if he's still alive
 
-		if(monster.health > 0):
+		if(monster.is_alive() > 0):
 			#just like the goblin, the hero should be changing its own stuff
 			hero.take_damage(monster.power);
 
 
 			print("the goblin hits you for %d damage" % monster.power);
 			# goblin has attacked, now check to see if hero is still alive
-			if(hero.health < 0):
+			if(hero.is_alive() < 0):
 				print("you haave been killed by the weak %s, shame on you" %monster.name);
 		else:
 			hero.increase_gold();
+
+
+
+#work on adding a partner and fight multiple monsters at the same time
+	#let the monster choose a random number and deals damage to whichever one.
+#work on armor reduction to damage ratio
+#work on adding a gold monster
+#can add a heal mana option
+
