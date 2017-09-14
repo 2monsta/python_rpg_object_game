@@ -5,7 +5,7 @@ class Hero(Main_Character):
 		self.gold = 400;
 	def cheer_for_hero(self):
 		print("fight hard %s" %self.name);
-	def increase_gold(self):
-		self.gold += 100;
+	def increase_gold(self, amount):
+		self.gold += amount;
 	def decrease_gold(self, amount):
 		self.gold -= amount;

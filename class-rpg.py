@@ -3,6 +3,8 @@ from Hero import Hero
 from random import randint
 from Store import Store;
 from Medic import Medic;
+from Gold_Monster import Gold_Monster;
+from Boss_Dragon import Boss_Dragon;
 
 from Goblin import Goblin
 from Vampire import Vampire
@@ -10,6 +12,8 @@ from Vampire import Vampire
 hero = Hero();
 store = Store();
 medic = Medic();
+gold_monster = Gold_Monster();
+boss_dragon = Boss_Dragon();
 monsters = []
 heros = []
 heros.append(hero);
@@ -23,6 +27,11 @@ longstring = """
 			
 """
 print(longstring);
+#==========================================ADD A STORY==============================
+story_string = """
+
+
+"""
 #before the game start, lets ask the hero for his her name.
 print "what is thy name, brave adventurer";
 hero_name = raw_input("> ");
@@ -33,12 +42,15 @@ hero.cheer_for_hero();
 print("how many monster are you willing to fight, brave %s" %hero.name);
 number_of_enemies = int(raw_input("> "));
 for i in range(0, number_of_enemies):
-	rand_num = randint(0, 1);
+	rand_num = randint(0, 3);
 	if(rand_num == 1):
 		monsters.append(Goblin());
-	else:
+	elif(rand_num == 2):
 		monsters.append(Vampire());
-
+	elif(rand_num == 0):
+		monsters.append(Gold_Monster());
+#========================This needs testing====================================
+monsters.insert(-1, boss_dragon);
 
 #a chance to stop before entering battle
 print("Do you want to shop before going into battle? (Y or N) ");
@@ -58,15 +70,19 @@ if(is_battle == "Y"):
 		print("> ");
 		us_input = raw_input();
 		if(us_input == "1"):
-	#===========================NOT HEALING	
-			store.heal(hero.health);
-			print(hero.health);
+			#before i was using a part of hero's data, which got changed but just not reflected in the hero object
+			#now if i pass in the hero object, and change 
+			store.heal(hero);
+			if(hero.health > 20):
+				hero.health = 20;
 		elif(us_input == "2"):
-			store.mega_heal(hero.health);
+			store.mega_heal(hero);
+			if(hero.health > 20):
+				hero.health = 20;
 		elif(us_input == "3"):
-			store.weapon(hero.power)
+			store.weapon(hero)
 		elif(us_input == "4"):
-			store.armor(hero.defense);
+			store.armor(hero);
 		else:
 			print("invaild input %s") % us_input
 	elif(user_inp == "2"):
@@ -89,11 +105,13 @@ if(user_input == "Y"):
 		hero.decrease_gold(400);
 	elif(user_input == "3"):
 		hero.decrease_gold(500);
+	else:
+		print("invaild input %s") % user_input
 
-
+is_battle = True;
 # we need to loop through all the monsters 
 for monster in monsters:
-	while(monster.is_alive() and hero.is_alive()):
+	while(monster.is_alive() and hero.is_alive() and is_battle == True):
 		# game is on
 		os.system("clear");
 		for i in range(0, len(heros)):
@@ -124,10 +142,13 @@ for monster in monsters:
 			#Heal's himself
 						if(user_input == "3"):
 							medic.heal();
+							if(medic.health > 20):
+								medic.health = 20;
 			#heal's main hero
 						elif(user_input == "4"):
-		#============================NOT HEALING OTHERS
-							medic.heal_other(hero.health);
+							medic.heal_other(hero);
+							if(hero.health > 20):
+								hero.health = 20;
 					else:
 						user_input = raw_input("> ")
 					if(user_input == "1"):
@@ -141,13 +162,16 @@ for monster in monsters:
 					user_input = raw_input("> ")
 					if(user_input == "1"):
 						monster.take_damage(heros[i].power);
+				else:
+					print("invaild input %s") % user_input
 
 			elif(user_input == "2"):
 				# hero is going to stand there like an idoit
 				pass
 			elif(user_input == "3"):
 				print("Goodbye coward, you remind me of Goober");
-				break; # call break to end the while loop
+				is_battle = False; # call break to end the while loop
+				break;
 			elif(user_input=="4"):
 				print("Choose an option")
 				print("1. Heal");
@@ -157,39 +181,48 @@ for monster in monsters:
 				print("> ");
 				u_input = raw_input();
 				if(u_input == "1"):
-					store.heal(heros[i].health);
+					store.heal(heros[i]);
+					if(heros[i].health > 20):
+						heros[i].health = 20;
 				elif(u_input == "2"):
-					store.mega_heal(heros[i].health);
+					store.mega_heal(heros[i]);
+					if(heros[i].health > 20):
+						heros[i].health = 20;
 				elif(u_input == "3"):
-					store.weapon(heros[i].power);
+					store.weapon(heros[i]);
 				elif(u_input == "4"):
-					store.armor(heros[i].defense);
+					store.armor(heros[i]);
 			else:
 				print("invaild input %s") % user_input
 			# goblins turn to attack !! only if he's still alive
 		if(monster.is_alive() > 0):
 			random_number = randint(0,2);
-			if(random_number == 0):
-			#just like the goblin, the hero should be changing its own stuff
-				heros[0].take_damage(monster.power);
-			else:
-				heros[1].take_damage(monster.power);
-			print("the goblin hits you for %d damage" % monster.power);
-			# goblin has attacked, now check to see if hero is still alive
+			for i in range(0, len(heros)):
+				if(random_number == 0):
+				#just like the goblin, the hero should be changing its own stuff
+					heros[i].take_damage(monster.power);
+					print("the goblin hits you for %d damage" % monster.power);
+				elif(random_number==1):
+					heros[i].take_damage(monster.power);
+					print("the goblin hits you for %d damage" % monster.power);
+				# goblin has attacked, now check to see if hero is still alive
 			if(hero.is_alive() < 0):
 				print("you haave been killed by the weak %s, shame on you" %monster.name);
 		else:
-			hero.increase_gold();
+			if(monster.name == "Gold_Monster"):
+				hero.increase_gold(300);
+			elif(monster.name == "Vampire"):
+				hero.increase_gold(200);
+			else:
+				hero.increase_gold(100);
 
 		print(hero.health)
 		print(medic.health);
 
 #work on armor reduction to damage ratio
-#work on adding a gold monster
+
 #can add a heal mana option'
-#make sure mage heal itself
-	#
-#make sure store heals the person
-	#make sure to minus gold
+#Boss Dragon auto added to the end of the monster's array.
+
 
 

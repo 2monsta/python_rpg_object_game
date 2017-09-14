@@ -6,6 +6,6 @@ class Medic(Hero):
 	def heal(self):
 		self.health += 10;
 		self.mana -=4;
-	def heal_other(self, health):
-		health += 10;
+	def heal_other(self, hero):
+		hero.health += 10;
 		self.mana -=4;
