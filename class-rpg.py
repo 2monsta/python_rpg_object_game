@@ -4,7 +4,7 @@ from random import randint
 from Store import Store;
 from Medic import Medic;
 from Gold_Monster import Gold_Monster;
-from Boss_Dragon import Boss_Dragon;
+from Boss_Drag import Boss_Drag;
 
 from Goblin import Goblin
 from Vampire import Vampire
@@ -13,7 +13,7 @@ hero = Hero();
 store = Store();
 medic = Medic();
 gold_monster = Gold_Monster();
-boss_dragon = Boss_Dragon();
+boss_dragon = Boss_Drag();
 monsters = []
 heros = []
 heros.append(hero);
@@ -49,8 +49,9 @@ for i in range(0, number_of_enemies):
 		monsters.append(Vampire());
 	elif(rand_num == 0):
 		monsters.append(Gold_Monster());
-#========================This needs testing====================================
+#Appending a final boss monster!!
 monsters.insert(-1, boss_dragon);
+
 
 #a chance to stop before entering battle
 print("Do you want to shop before going into battle? (Y or N) ");
@@ -107,8 +108,6 @@ if(user_input == "Y"):
 		hero.decrease_gold(500);
 	else:
 		print("invaild input %s") % user_input
-
-print(len(monsters));
 is_battle = True;
 # we need to loop through all the monsters 
 for monster in monsters:
