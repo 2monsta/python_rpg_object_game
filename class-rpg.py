@@ -108,6 +108,7 @@ if(user_input == "Y"):
 	else:
 		print("invaild input %s") % user_input
 
+print(len(monsters));
 is_battle = True;
 # we need to loop through all the monsters 
 for monster in monsters:
