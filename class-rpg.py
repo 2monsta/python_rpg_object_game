@@ -1,4 +1,5 @@
 import os
+# import pygame
 from Hero import Hero
 from random import randint
 from Store import Store;
@@ -8,8 +9,24 @@ from Vampire import Vampire
 # instantiate a hero object from the Hero Class
 hero = Hero();
 gamestore = Store();
+# pygame.init();
+# screenX = 1080;
+# screenY = 920;
+# screen_size = (screenX, screenY);
+# pygame_screen = pygame.display.set_mode(screen_size);
+# pygame.display.set_caption("FF remake");
 #make a list to hold all our monsters
 monsters = []
+longstring = """
+
+               
+ \ \    / /__| |__ ___ _ __  ___  | _ \ |__ _ _  _ ___ _ _ 
+  \ \/\/ / -_) / _/ _ \ '  \/ -_) |  _/ / _` | || / -_) '_|
+   \_/\_/\___|_\__\___/_|_|_\___| |_| |_\__,_|\_, \___|_|  
+                                              |__/              
+            
+"""
+print(longstring);
 #before the game start, lets ask the hero for his her name.
 print "what is thy name, brave adventurer";
 hero_name = raw_input("> ");
@@ -25,8 +42,39 @@ for i in range(0, number_of_enemies):
 		monsters.append(Goblin());
 	else:
 		monsters.append(Vampire());
-print(monsters);
 
+
+
+print("Do you want to shop before going into battle? (Y or N) ");
+is_battle = raw_input("> ");
+if(is_battle == "Y"):
+	print "What do you want to do?"
+	print "1. store";
+	print "2. do nothing"
+	user_inp = raw_input("> ");
+	if(user_inp == "1"):
+		print("You have %d gold" % hero.gold);
+		print("Choose an option")
+		print("1. Heal");
+		print("2. Mega Heal")
+		print("3. Add Weapon")
+		print("4. Add Armor")
+		print("> ");
+		us_input = raw_input();
+		if(us_input == "1"):
+			hero.heal();
+		elif(us_input == "2"):
+			hero.mega_heal();
+		elif(us_input == "3"):
+			hero.weapon();
+		elif(us_input == "4"):
+			hero.armor();
+		else:
+			print("invaild input %s") % us_input
+	elif(user_inp == "2"):
+		pass;
+	else:
+		print("invaild input %s") % user_inp
 # we need to loop through all the monsters 
 for monster in monsters:
 	while(monster.is_alive() and hero.is_alive()):
@@ -76,7 +124,6 @@ for monster in monsters:
 		# goblins turn to attack !! only if he's still alive
 
 		if(monster.health > 0):
-			#hero.health -= goblin.power;
 			#just like the goblin, the hero should be changing its own stuff
 			hero.take_damage(monster.power);
 

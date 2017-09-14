@@ -7,7 +7,7 @@ class Hero(object):
 		self.regular_pot = 5;
 		self.increase_attack = 5;
 		self.increase_defense = 2;
-		self.gold = 800;
+		self.gold = 400;
 	def take_damage(self, damage):
 		self.health -= damage;
 	def cheer_for_hero(self):
