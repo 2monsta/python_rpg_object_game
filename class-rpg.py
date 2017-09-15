@@ -29,9 +29,12 @@ longstring = """
 print(longstring);
 #==========================================ADD A STORY==============================
 story_string = """
-
+The goal of this game is to reach 10,000 gold. 
+Monster's will keep coming at you! Beware of the Dragon!
 
 """
+
+print(story_string);
 #before the game start, lets ask the hero for his her name.
 print "what is thy name, brave adventurer";
 hero_name = raw_input("> ");
@@ -39,19 +42,19 @@ hero.name = hero_name;
 hero.cheer_for_hero();
 
 #generate number of monster to put in the list of monsters
-print("how many monster are you willing to fight, brave %s" %hero.name);
-number_of_enemies = int(raw_input("> "));
-for i in range(0, number_of_enemies):
-	rand_num = randint(0, 3);
-	if(rand_num == 1):
-		monsters.append(Goblin());
-	elif(rand_num == 2):
-		monsters.append(Vampire());
-	elif(rand_num == 0):
-		monsters.append(Gold_Monster());
-#Appending a final boss monster!!
-monsters.insert(-1, boss_dragon);
-
+# print("how many monster are you willing to fight, brave %s" %hero.name);
+# number_of_enemies = int(raw_input("> "));
+# for i in range(0, number_of_enemies):
+# 	rand_num = randint(0, 3);
+# 	if(rand_num == 1):
+# 		monsters.append(Goblin());
+# 	elif(rand_num == 2):
+# 		monsters.append(Vampire());
+# 	elif(rand_num == 0):
+# 		monsters.append(Gold_Monster());
+# #Appending a final boss monster!!
+# monsters.insert(-1, boss_dragon);
+monsters.append(Goblin());
 
 #a chance to stop before entering battle
 print("Do you want to shop before going into battle? (Y or N) ");
@@ -113,6 +116,24 @@ is_battle = True;
 for monster in monsters:
 	while(monster.is_alive() and hero.is_alive() and is_battle == True):
 		# game is on
+
+
+
+		rand_num = randint(0, 9);
+		if(rand_num == 1 or rand_num == 3 or rand_num == 5):
+			monsters.append(Goblin());
+		elif(rand_num == 4 or rand_num == 6 or rand_num == 8):
+			monsters.append(Vampire());
+		elif(rand_num == 0 or rand_num == 2):
+			monsters.append(Gold_Monster());
+		elif(rand_num == 7):
+			monsters.append(Boss_Drag());
+
+
+
+
+
+
 		os.system("clear");
 		for i in range(0, len(heros)):
 			print("%s is attacking!" % heros[i].name);
@@ -174,10 +195,10 @@ for monster in monsters:
 				break;
 			elif(user_input=="4"):
 				print("Choose an option")
-				print("1. Heal");
-				print("2. Mega Heal")
-				print("3. Add Weapon")
-				print("4. Add Armor")
+				print("1. Heal (100)");
+				print("2. Mega Heal (200)")
+				print("3. Add Weapon (200)")
+				print("4. Add Armor (200)")
 				print("> ");
 				u_input = raw_input();
 				if(u_input == "1"):
@@ -195,7 +216,15 @@ for monster in monsters:
 			else:
 				print("invaild input %s") % user_input
 			# goblins turn to attack !! only if he's still alive
+
+	#=========================Testing Final Boss's sp attack=========================
 		if(monster.is_alive() > 0):
+			r_num = randint(0,3)
+			if(monster.name == "Spirit Dragon"):
+				if(r_num == 3):
+					monster.sp_attack(hero);
+				else:
+					hero.take_damage(monster.power);
 			random_number = randint(0,2);
 			for i in range(0, len(heros)):
 				if(random_number == 0):
@@ -204,25 +233,29 @@ for monster in monsters:
 					print("the goblin hits you for %d damage" % monster.power);
 				elif(random_number==1):
 					heros[i].take_damage(monster.power);
-					print("the goblin hits you for %d damage" % monster.power);
+					print("the %s hits you for %d damage" %(monster.name, monster.power));
 				# goblin has attacked, now check to see if hero is still alive
 			if(hero.is_alive() < 0):
 				print("you haave been killed by the weak %s, shame on you" %monster.name);
 		else:
+			#increase the hero's gold after defeating monster
 			if(monster.name == "Gold_Monster"):
 				hero.increase_gold(300);
 			elif(monster.name == "Vampire"):
 				hero.increase_gold(200);
+			elif(monster.name =="Boss_Drag"):
+				her.increase_gold(500);
 			else:
 				hero.increase_gold(100);
 
 		print(hero.health)
 		print(medic.health);
 
-#work on armor reduction to damage ratio
-
-#can add a heal mana option'
-#Boss Dragon auto added to the end of the monster's array.
+	#work on armor reduction to damage ratio
+	#can add a heal mana option'
+	#Weapon class to extend weapon list to power up power
+	#armor class to extend defnse power
+	#add new characters and able to hire only after defeating a spirit dragon
 
 
 
