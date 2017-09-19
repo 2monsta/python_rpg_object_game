@@ -165,7 +165,12 @@ for monster in monsters:
 					else:
 						user_input = raw_input("> ")
 					if(user_input == "1"):
-						monster.take_damage(heros[i].power);
+						if(heros[i].name == "Buff Guy"):
+							num = randint(0, 5);
+							if(num == 1):
+								buff_guy.power_hit(monster);
+						else:
+							monster.take_damage(heros[i].power);
 					if(user_input == "2"):
 						monster.take_spell_damage(heros[i].spell_power);
 						heros[i].spell_power_cost();
