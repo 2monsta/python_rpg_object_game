@@ -1,22 +1,24 @@
 import os
 from Hero import Hero
 from random import randint
-from Store import Store;
-from Medic import Medic;
-from Gold_Monster import Gold_Monster;
-from Boss_Drag import Boss_Drag;
+from Store import Store
+from Medic import Medic
+from Gold_Monster import Gold_Monster
+from Boss_Drag import Boss_Drag
+from Buff_Guy import Buff_Guy
 
 from Goblin import Goblin
 from Vampire import Vampire
 # instantiate a hero object from the Hero Class
-hero = Hero();
-store = Store();
-medic = Medic();
-gold_monster = Gold_Monster();
-boss_dragon = Boss_Drag();
+hero = Hero()
+store = Store()
+medic = Medic()
+gold_monster = Gold_Monster()
+boss_dragon = Boss_Drag()
+buff_guy = Buff_Guy()
 monsters = []
 heros = []
-heros.append(hero);
+heros.append(hero)
 longstring = """
 
 			   
@@ -26,7 +28,7 @@ longstring = """
 											  |__/              
 			
 """
-print(longstring);
+print longstring
 #==========================================ADD A STORY==============================
 story_string = """
 The goal of this game is to reach 10,000 gold. 
@@ -34,12 +36,12 @@ Monster's will keep coming at you! Beware of the Dragon!
 
 """
 
-print(story_string);
+print(story_string)
 #before the game start, lets ask the hero for his her name.
-print "what is thy name, brave adventurer";
-hero_name = raw_input("> ");
-hero.name = hero_name;
-hero.cheer_for_hero();
+print "what is thy name, brave adventurer"
+hero_name = raw_input("> ")
+hero.name = hero_name
+hero.cheer_for_hero()
 
 #generate number of monster to put in the list of monsters
 # print("how many monster are you willing to fight, brave %s" %hero.name);
@@ -66,12 +68,7 @@ if(is_battle == "Y"):
 	user_inp = raw_input("> ");
 	if(user_inp == "1"):
 		print("You have %d gold" % hero.gold);
-		print("Choose an option")
-		print("1. Heal (100gd)");
-		print("2. Mega Heal (200gd)")
-		print("3. Add Weapon (200gd)")
-		print("4. Add Armor (200gd)")
-		print("> ");
+		store.print_store_items();
 		us_input = raw_input();
 		if(us_input == "1"):
 			#before i was using a part of hero's data, which got changed but just not reflected in the hero object
@@ -87,6 +84,10 @@ if(is_battle == "Y"):
 			store.weapon(hero)
 		elif(us_input == "4"):
 			store.armor(hero);
+		elif(us_input == "5"):
+			pass;
+		elif us_input == "6":
+			hero.mana += 10;
 		else:
 			print("invaild input %s") % us_input
 	elif(user_inp == "2"):
@@ -98,15 +99,14 @@ if(is_battle == "Y"):
 print("Do you want to hire someone to take this journey with you? (Y or N)")
 user_input = raw_input("> ")
 if(user_input == "Y"):
-	print("1. Hire a Medic (300gd)");
-	print("2. Hire a Buff Guy (400gd)");
-	print("3. Hire a Ninja (500gd)");
+	store.print_people_to_hire();
 	user_input = raw_input("> ");
 	if(user_input == "1"):
 		hero.decrease_gold(300);
 		heros.append(medic);
 	elif(user_input=="2"):
 		hero.decrease_gold(400);
+		heros.append(buff_guy);
 	elif(user_input == "3"):
 		hero.decrease_gold(500);
 	else:
@@ -116,9 +116,6 @@ is_battle = True;
 for monster in monsters:
 	while(monster.is_alive() and hero.is_alive() and is_battle == True):
 		# game is on
-
-
-
 		rand_num = randint(0, 9);
 		if(rand_num == 1 or rand_num == 3 or rand_num == 5):
 			monsters.append(Goblin());
@@ -128,12 +125,7 @@ for monster in monsters:
 			monsters.append(Gold_Monster());
 		elif(rand_num == 7):
 			monsters.append(Boss_Drag());
-
-
-
-
-
-
+		#================================IMPLEMENT the user to use buff guy
 		os.system("clear");
 		for i in range(0, len(heros)):
 			print("%s is attacking!" % heros[i].name);
@@ -187,31 +179,25 @@ for monster in monsters:
 					print("invaild input %s") % user_input
 
 			elif(user_input == "2"):
-				# hero is going to stand there like an idoit
 				pass
 			elif(user_input == "3"):
 				print("Goodbye coward, you remind me of Goober");
 				is_battle = False; # call break to end the while loop
 				break;
 			elif(user_input=="4"):
-				print("Choose an option")
-				print("1. Heal (100)");
-				print("2. Mega Heal (200)")
-				print("3. Add Weapon (200)")
-				print("4. Add Armor (200)")
-				print("> ");
-				u_input = raw_input();
-				if(u_input == "1"):
+				store.print_store_items();
+				us_input = raw_input();
+				if(us_input == "1"):
 					store.heal(heros[i]);
 					if(heros[i].health > 20):
 						heros[i].health = 20;
-				elif(u_input == "2"):
+				elif(us_input == "2"):
 					store.mega_heal(heros[i]);
 					if(heros[i].health > 20):
 						heros[i].health = 20;
-				elif(u_input == "3"):
+				elif(us_input == "3"):
 					store.weapon(heros[i]);
-				elif(u_input == "4"):
+				elif(us_input == "4"):
 					store.armor(heros[i]);
 			else:
 				print("invaild input %s") % user_input
@@ -245,17 +231,25 @@ for monster in monsters:
 				hero.increase_gold(200);
 			elif(monster.name =="Boss_Drag"):
 				her.increase_gold(500);
+				print("You have the option to hire a someone to fight along side you!");
+				store.print_people_to_hire();
 			else:
 				hero.increase_gold(100);
 
 		print(hero.health)
 		print(medic.health);
 
+
+	#Buff guy's special attack if choosen, the user can choose to use buff guy to attk
+	#to do 50 damage
+
 	#work on armor reduction to damage ratio
 	#can add a heal mana option'
 	#Weapon class to extend weapon list to power up power
+	#have t1 +5, t2+7, t3+10 weapons
 	#armor class to extend defnse power
 	#add new characters and able to hire only after defeating a spirit dragon
+	#have a print class that just prints some ofthese lines
 
 
 
