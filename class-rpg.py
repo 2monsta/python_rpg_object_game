@@ -31,8 +31,9 @@ longstring = """
 print longstring
 #==========================================ADD A STORY==============================
 story_string = """
-The goal of this game is to reach 10,000 gold. 
-Monster's will keep coming at you! Beware of the Dragon!
+Once apon a time, there a warrior that takes on this journey alone, he trains alone,
+and fights alone. There's a tournement coming up in Tokyo, he will compete to test out his
+strength against all other warriror. Little did he know that he's dad was the final test.
 
 """
 
@@ -116,12 +117,12 @@ is_battle = True;
 for monster in monsters:
 	while(monster.is_alive() and hero.is_alive() and is_battle == True):
 		# game is on
-		rand_num = randint(0, 9);
-		if(rand_num == 1 or rand_num == 3 or rand_num == 5):
+		rand_num = randint(0, 16);
+		if(rand_num == 1 or rand_num == 3 or rand_num == 5 or rand_num == 7 or rand_num == 9 or rand_num == 11):
 			monsters.append(Goblin());
-		elif(rand_num == 4 or rand_num == 6 or rand_num == 8):
+		elif(rand_num == 4 or rand_num == 6 or rand_num == 8 or rand_num == 12 or rand_num == 14 or rand_num == 15):
 			monsters.append(Vampire());
-		elif(rand_num == 0 or rand_num == 2):
+		elif(rand_num == 0 or rand_num == 2 or rand_num == 10):
 			monsters.append(Gold_Monster());
 		elif(rand_num == 7):
 			monsters.append(Boss_Drag());
@@ -235,9 +236,10 @@ for monster in monsters:
 			elif(monster.name == "Vampire"):
 				hero.increase_gold(200);
 			elif(monster.name =="Boss_Drag"):
-				her.increase_gold(500);
-				print("You have the option to hire a someone to fight along side you!");
-				store.print_people_to_hire();
+				print "Congratualtions! You won the contest!"
+				user_input = raw_input("Press any key to exit")
+				if user_input:
+					sys.exit
 			else:
 				hero.increase_gold(100);
 
@@ -245,16 +247,10 @@ for monster in monsters:
 		print(medic.health);
 
 
-	#Buff guy's special attack if choosen, the user can choose to use buff guy to attk
-	#to do 50 damage
-
 	#work on armor reduction to damage ratio
-	#can add a heal mana option'
 	#Weapon class to extend weapon list to power up power
 	#have t1 +5, t2+7, t3+10 weapons
 	#armor class to extend defnse power
-	#add new characters and able to hire only after defeating a spirit dragon
-	#have a print class that just prints some ofthese lines
 
 
 
